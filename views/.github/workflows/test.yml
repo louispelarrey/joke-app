@@ -1,0 +1,13 @@
+name: Test workflow
+
+on:
+  push:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Echo the name
+        run: |
+          export NAME=Mathias
+          echo "The name"
