@@ -4,8 +4,9 @@ pipeline {
   stages {
     stage('build') {
       steps {
-        sh "echo 'Building...'"
-        sh "echo 'Still building...'"
+        sh "npm install"
+        sh "npm run build"
+        sh "npm test"
       }
     }
   }
