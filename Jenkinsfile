@@ -30,9 +30,9 @@ pipeline {
       steps {
         script{
           docker.withRegistry('https://registry.heroku.com', 'heroku-id') {
-            sh "docker buildx --platform linux/adm64 -t) ${tag}:latest -t ${tag}:${BUILD_ID} ."
-            def image = docker.build("${env.tag}")
-            image.push()
+            sh "docker buildx build --platform linux/adm64 -t ${tag}:latest -t ${tag}:${BUILD_ID} ."
+            // def image = docker.build("${env.tag}")
+            // image.push()
 
             sh "docker push ${tag}:latest"
           }
@@ -43,5 +43,5 @@ pipeline {
         }
       }
     }
-  } 
+  }  
 }
