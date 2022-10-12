@@ -12,19 +12,27 @@ pipeline {
   stages {
     stage('build') {
       steps {
-        nodejs(nodeJSInstallationName : "${params.NODE_VERSION}"){
-          sh "npm install"
-          sh "npm run build"
-          sh "npm test"
+        script {
+          try {
+            nodejs(nodeJSInstallationName : "${params.NODE_VERSION}"){
+              sh "npm install"
+              sh "npm run build"
+              sh "npm test"
+            }
+          } catch (Exception e) {
+            throw e
+          }
         }
       }
     }
 
     stage('deploy') {
       steps {
-        docker.withRegistry('https://registry.heroku.com', 'heroku-id') {
-          def image = docker.build("${env.tag}")
-          image.push()
+        script{
+          docker.withRegistry('https://registry.heroku.com', 'heroku-id') {
+            def image = docker.build("${env.tag}")
+            image.push()
+          }
         }
       }
     }
